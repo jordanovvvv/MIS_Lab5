@@ -1,9 +1,20 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../model/utils.dart';
+
 
 class LoginWidget extends StatefulWidget{
+
+  final VoidCallback onClickSignUp;
+
+  const LoginWidget({
+    Key? key,
+    required this.onClickSignUp
+}) : super(key: key);
+
   @override
   _LoginWidgetState createState() => _LoginWidgetState();
 }
@@ -33,6 +44,7 @@ class _LoginWidgetState extends State<LoginWidget>{
       );
     } on FirebaseAuthException catch (e){
       print(e);
+      Utils.showSnackBar(e.message);
     }
 
     Navigator.pop(context);
@@ -42,10 +54,22 @@ class _LoginWidgetState extends State<LoginWidget>{
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(15),
+      padding: EdgeInsets.only(top: 120, left: 15, right: 15),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const Text(
+              'Welcome!',
+            style: TextStyle(
+                fontSize: 45,
+                fontFamily: 'Calibri',
+                color: Color(0xFF2eb5e9)
+            ),
+          ),
+          Image.asset('assets/images/flag.png', width: 70,
+              height: 100,
+              fit: BoxFit.cover
+          ),
           SizedBox(height: 40),
           TextField(
             controller: emailController,
@@ -63,7 +87,8 @@ class _LoginWidgetState extends State<LoginWidget>{
           SizedBox(height: 20),
           ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                  minimumSize: Size.fromHeight(50)
+                  minimumSize: Size.fromHeight(50),
+                backgroundColor: Color(0xFF2eb5e9)
               ),
               icon: Icon(Icons.lock_open, size: 32),
               label: Text(
@@ -71,8 +96,26 @@ class _LoginWidgetState extends State<LoginWidget>{
                 style: TextStyle(fontSize: 24),
               ),
               onPressed: signIn
-
           ),
+          SizedBox(height: 24),
+          RichText(
+              text: TextSpan(
+                text: "No account?  ",
+                style: TextStyle(
+                    color: Color(0xFF2eb5e9),
+                    fontSize: 18,
+                ),
+                children: [
+                  TextSpan(
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = widget.onClickSignUp
+                  ,
+                    text: "Sign up",
+                    style: TextStyle(color: Colors.redAccent, fontSize: 18)
+                  )
+                ]
+              ),
+          )
 
         ],
       ),
