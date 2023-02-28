@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lab4_mis/widgets/local_notification_service.dart';
 import 'package:nanoid/nanoid.dart';
 import '../model/list_item.dart';
 import 'adaptive_flat_button.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NovElement extends StatefulWidget {
   final Function addItem;
@@ -123,6 +125,7 @@ class _NovElementState extends State<NovElement> {
             ),
 
             AdaptiveFlatButton("Dodaj", _submitData)
+
           ],
         ),
     );

@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lab4_mis/widgets/local_notification_service.dart';
 
 class AdaptiveFlatButton extends StatelessWidget {
   final String text;
@@ -8,12 +10,13 @@ class AdaptiveFlatButton extends StatelessWidget {
 
   AdaptiveFlatButton(this.text, this.handler);
 
+
   @override
   Widget build(BuildContext context) {
     return Platform.isIOS
         ? CupertinoButton(
       child: Text(text),
-      onPressed: handler,
+      onPressed: handler ,
     )
         : TextButton(
       child: Text(text),
@@ -38,7 +41,7 @@ class AdaptiveFlatButton extends StatelessWidget {
         ),
 
       ),
-    );
+    ) ;
   }
 
 

@@ -8,6 +8,7 @@ import 'model/list_item.dart';
 import 'model/utils.dart';
 import 'widgets/nov_element.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:lab4_mis/widgets/local_notification_service.dart';
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +44,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  late final LocalNotificationService localNotificationService;
+
+  Future<void> main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await LocalNotificationService().initialize(); // <----
+    runApp(MyApp());
+  }
 
   @override
   Widget build(BuildContext context) {

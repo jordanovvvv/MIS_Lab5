@@ -1,15 +1,29 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lab4_mis/widgets/LoginWidget.dart';
 import 'package:lab4_mis/widgets/calendarapp.dart';
 import 'package:lab4_mis/model/list_item.dart';
+import 'package:lab4_mis/widgets/local_notification_service.dart';
 import 'nov_element.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+
 class HomeWidget extends StatefulWidget {
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
 }
 class _HomeWidgetState extends State<HomeWidget>{
+
+  late final LocalNotificationService localNotificationService;
+
+  @override
+  void initState(){
+    super.initState();
+    localNotificationService = LocalNotificationService();
+    localNotificationService.initialize();
+
+  }
 
 
   List<ListItem> _userItems = [
@@ -31,6 +45,7 @@ class _HomeWidgetState extends State<HomeWidget>{
   }
   void _addItemFunction(BuildContext ct) {
 
+
     showModalBottomSheet(
         context: ct,
         builder: (_) {
@@ -43,7 +58,9 @@ class _HomeWidgetState extends State<HomeWidget>{
   void _addNewItemToList(ListItem item) {
     setState(() {
       _userItems.add(item);
+
     });
+
   }
 
   void _deleteItem(String id) {
@@ -51,30 +68,39 @@ class _HomeWidgetState extends State<HomeWidget>{
       _userItems.removeWhere((elem) => elem.id == id);
     });
   }
+
+
+
   Widget _createBody() {
     return Center(
       child: _userItems.isEmpty
-          ? Text("Nema elementi")
-          : ListView.builder(
-        itemBuilder: (ctx, index) {
-          return Card(
-            elevation: 3,
-            margin: const EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 10,
-            ),
-            child: ListTile(
-              title: Text(_userItems[index].naslov),
-              subtitle: Text(_userItems[index].datum + " " + _userItems[index].vreme),
-              trailing: IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () => _deleteItem(_userItems[index].id),
-              ),
-            ),
-          );
-        },
-        itemCount: _userItems.length,
-      ),
+              ? ElevatedButton(onPressed: () async {
+                await localNotificationService.showNotification(
+                    id: 12345,
+                    title: "A Notification From My Application",
+                    body: "This notification was sent using Flutter Local Notifcations Package",
+                );
+              }, child: Text('Elementi?'))
+              : ListView.builder(
+            itemBuilder: (ctx, index) {
+              return Card(
+                elevation: 3,
+                margin: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 10,
+                ),
+                child: ListTile(
+                  title: Text(_userItems[index].naslov),
+                  subtitle: Text(_userItems[index].datum + " " + _userItems[index].vreme),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () => _deleteItem(_userItems[index].id),
+                  ),
+                ),
+              );
+            },
+            itemCount: _userItems.length,
+          ),
     );
   }
 
@@ -101,6 +127,7 @@ class _HomeWidgetState extends State<HomeWidget>{
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: PreferredSize(
