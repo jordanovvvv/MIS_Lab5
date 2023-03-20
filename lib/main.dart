@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       scaffoldMessengerKey: Utils.messengerKey,
-      title: 'Laboratory Exercise 4 - 192015',
+      title: 'Laboratory Exercise 5 - 192015',
       theme: ThemeData(
         primarySwatch: Colors.blue,
           textTheme: ThemeData.light().textTheme.copyWith(
