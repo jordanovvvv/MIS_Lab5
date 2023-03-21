@@ -42,6 +42,8 @@ dependencies:
   firebase_auth: ^4.2.3
   email_validator: ^2.1.17
   flutter_local_notifications: ^9.6.0
+  geolocator: ^9.0.2
+  url_launcher: ^6.1.2
 
 dev_dependencies:
   flutter_test:
